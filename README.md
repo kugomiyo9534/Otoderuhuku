@@ -9,4 +9,9 @@ https://lucid.app/lucidchart/0889904f-0fdc-40c2-b39d-b20ceea5ca7f/edit?beaconFlo
 
 
 # 参考文献
+pro microのピン配置
+https://qiita.com/neon-izm/items/e13580f71b505ecf955e
+
+
+pro microとESP32の通信
 https://tomosoft.jp/design/?p=41936

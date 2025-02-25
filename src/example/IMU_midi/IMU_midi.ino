@@ -1,10 +1,10 @@
+#include <MIDI.h>
 #include <Wire.h>
 #include <MadgwickAHRS.h>
-#include <SoftwareSerial.h>
-
 Madgwick MadgwickFilter;
 
-SoftwareSerial mySerial(8, 9); // RX, TX
+
+MIDI_CREATE_DEFAULT_INSTANCE();
 
 #define cds_MIN0 -20
 #define cds_MAX0 30
@@ -31,10 +31,9 @@ int cds2 = 0;
 
 void setup() {
 
-  Serial.begin(9600);
-
-  mySerial.begin(9600); // ソフトウェアシリアルの初期化
-
+  MIDI.begin(1);  
+  MIDI.turnThruOff();
+  //Serial.begin(115200);
   Wire.setClock(400000);
   Wire.begin();
   
@@ -86,7 +85,8 @@ void loop() {
   int nowcds0;
   nowcds0 = degX;   //analogRead(CDS0);
     cds0 = constrain(nowcds0, cds_MIN0, cds_MAX0);
-    cds0 = map(cds0, cds_MIN0, cds_MAX0, pb_MAX0, pb_MIN0);\     
+    cds0 = map(cds0, cds_MIN0, cds_MAX0, pb_MAX0, pb_MIN0);
+    MIDI.sendControlChange(74,cds0,1);     
     delay(5); //ぬるりとした感覚
   }   
   
@@ -94,14 +94,18 @@ void loop() {
   int nowcds1;
   nowcds1 = degY;   //analogRead(CDS0);
     cds1 = constrain(nowcds1, cds_MIN1, cds_MAX1);
-    cds1 = map(cds1, cds_MIN1, cds_MAX1, pb_MAX1, pb_MIN1);  
+    cds1 = map(cds1, cds_MIN1, cds_MAX1, pb_MAX1, pb_MIN1);
+    MIDI.sendControlChange(71,cds1,1);     
     delay(5);
   }   
 
 {
-  Serial.println(cds0); 
-  mySerial.write(cds0);
+  //Serial.print(degX); Serial.print(",");
+  //Serial.print(degY); Serial.print(",");
+  //Serial.println(degZ);
 }
+  
+ 
 }
 
 
